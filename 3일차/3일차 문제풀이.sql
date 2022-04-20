@@ -40,11 +40,14 @@ select ename ,nvl2(manager ,manager , 0)
 from employee;
 
 --7번 문제
-select ename ,job,salary, decode( job , 'ANAIYST' , salary+200,
+select ename ,job,salary, decode( job , 'ANALYST' , salary+200,
                              'SALESMAN' , salary+180,
                              'MANAGER' , salary+150,
-                             'CLERK'   , salary+100 ) "인상된 급여"
+                             'CLERK'   , salary+100
+                             ,salary
+                             ) "인상된 급여"
 from employee;                             
+
 
 
 
