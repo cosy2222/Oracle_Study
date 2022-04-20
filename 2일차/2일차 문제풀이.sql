@@ -64,7 +64,7 @@ where ename like '__R%';
 --13번 문제
 select ename
 from employee
-where ename like '%A%E%' or ename like '%E%A%';
+where ename like '%A%' and ename like '%E%';
 
 --14번 문제
 select ename ,job , salary
