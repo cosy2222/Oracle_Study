@@ -7,8 +7,8 @@ from employee;
 
 
 --9번문제 : 주민번호를  123456-1****** 출력하도록 , 전화번호 : 010-11******* 출력
-SELECT rpad('123456-1' , 14 , '*') as 주민번호,
-       rpad('010-11' , 13 , '*') as 전화번호
+SELECT rpad(substr('123456-1111111',1,8) , length('123456-1111111') , '*') as 주민번호,
+       rpad(substr('010-1111-1111',1,6) ,length('010-1111-1111') , '*') as 전화번호
 from dual;
 
 
@@ -24,10 +24,10 @@ from dual;
 select eno , ename , manager , 
 
 decode( substr(manager,1,2) , null , '0000',
-                              '75' , 5555,
-                              '76' , 6666,
-                              '77' , 7777,
-                              '78' , 8888,
+                              75 , 5555,
+                              76 , 6666,
+                              77 , 7777,
+                              78 , 8888,
                               manager)  as 수정
                                          
 from employee;                                         
