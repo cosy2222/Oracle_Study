@@ -132,6 +132,8 @@ group by rollup (dno , job);
     -- 두테이블의 공통키 컬럼 (dno) , employee 테이블의 dno 컬럼은 department 테이블의 dno 컬럼을 참조한다 
     -- 두개 이상의 테이블의 컬럼을 join구문을 사용해서 출력 
     
+ 
+    
 select * from department;   -- 부서정보를 저장 하는 테이블
 select * from employee;     -- 사원정보를 저장하는 테이블
 
@@ -230,6 +232,29 @@ select ename , dname , salary , grade
 from employee e , department d , salgrade s
 where e.dno = d.dno
 and salary between losal and hisal;
+
+
+-- 제약 조건    : 테이블의 컬럼에 할당되어서 데이터의 무결성을 확보 
+    -- primnary Key :  테이블에 한번만 사용할 수 있다.  하나의 컬럼 , 두개이상을 그룹핑해서 적용 
+                -- 중복된 값을 넣을수 없다.  null을 넣을 수 없다 
+    -- UNIQUE       : 테이블에 여러 컬럼에 할당 할 수 있다. 중복된 값을 넣을 수 없다 . 
+               -- 한번만  null 넣을수 있다  , 
+    -- Foreign Key  : 다른 테이블의 특정 컬럼의 값을 참조해서 넣을 수 있다
+               -- 자신의 컬럼에 임의의 값을 할당하지 못한다 . 
+    -- Not nul      : null 값을 컬럼에 할당할 수 없다 
+    -- Check        : 컬럼의 값을 할당할떄  체크해서  (조건에 만족) 값을 할당
+    -- Default      : 값을 넣지 않을떄 기본값이 할당.  
+
+
+
+
+
+
+
+
+
+
+
 
 
 
