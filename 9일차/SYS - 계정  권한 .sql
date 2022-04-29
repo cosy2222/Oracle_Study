@@ -41,8 +41,15 @@ where username in ( 'HR' , 'USERTEST01');
 
 -- 계정에게 테이블 스페이스 변경 ( SYSTEM == > USERS) 변경
 alter user usertest01
-default tablespace users
-temporary tablespace temp;
+default tablespace users        -- dataFIle 저장 : 객체를 저장하는 공간
+temporary tablespace temp;      -- log 를 저장 : DML
+
+-- 테이블 스페이스 : 객체와 log를 저장하는 물리적인 파일
+    -- DATAFILE : 객체를 저장하고 있다
+    -- log      : transaction log 를 저장 
+    
+    -- DataFile 과 log 파일은 물리적으로 다른 하드공간에 저장해야 성능을 높일수 있음 
+        -- RAID된 공간에 저장하면 성능을 높일 수 있다 
 
 -- 계정에게 users 테이블 스페이스를 사용할수 있는 공간 할당 ( users 테이블 스페이스에 2mb 사용 공간 할당 
 alter user usertest01
