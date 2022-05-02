@@ -239,6 +239,47 @@ drop index idx_empcopy91_allsal;
 create user usertest01  identified by 1234;
 
 
+-- object privileges : 테이블 , 뷰 , 트리거 , 함수 , 저장프로시저 , 시퀀스 , 인덱스에 부여되는 권한할당
+/*
+    ===================================================
+    권한    table     view    sequence    procedeur
+    ===================================================
+    alter    0                  0
+    delete   0         0
+    execute                                   0
+    index    0
+    insert   0         0
+  reference  0
+    select   0         0        0
+    update   0         0
+ */   
+    
+ 
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+
+
+
 
 
 
