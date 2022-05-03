@@ -247,6 +247,53 @@ end;
 */
 
 
+/*  
+    cursor for loop 문으로 커서를 사용해서 여러 레코드셋 출력하기
+        -open , close를 생략해서 사용
+        - 한테이블의 전체 내용을 출력 할떄 사용
+*/
+
+
+set serveroutput on
+
+declare
+    v_dept department%rowtype;
+    cursor c1
+    is
+    select * from department;
+    
+begin
+    dbms_output.put_line( '부서번호    부서명     지역명');
+    dbms_output.put_line( '------------------------------------');
+    for v_dept in c1 loop
+        dbms_output.put_line( v_dept.dno || '   ' || v_dept.dname || '    ' || v_dept.loc);
+    end loop;    
+end;
+/
+
+
+
+
+declare
+    v_emp employee%rowtype;
+    cursor c1
+    is
+    select * from employee where salary > 2000 and dno in (20,30);
+    
+begin
+    for v_emp in c1 loop
+        dbms_output.put_line( v_emp.eno || '   ' || v_emp.ename || '    ' || v_emp.salary || '   '|| v_emp.dno);
+    end loop;    
+end;
+/
+
+
+
+
+
+
+
+
 
 
 
