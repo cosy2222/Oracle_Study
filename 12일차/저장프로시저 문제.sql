@@ -1,3 +1,4 @@
+set serveroutput on;
 -- 1¹ø¹®Á¦ 
 create or replace procedure p1
 is 

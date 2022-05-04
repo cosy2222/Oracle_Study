@@ -185,6 +185,173 @@ end;
 
 
 
+/* 함수 ( Funtion ) : 값을 넣어서 하나의 값을 반환 받아온다.   <== SQL구문 내에서 사용가능
+    -- 비교 ,  저장프로시저는 out 매개변수를 여러개 반환받아올수 있다 <== SQL구문 내애서는 사용불가
+*/
+
+create or replace function fn_salary_ename ( 
+    v_ename in employee.ename%type
+)
+return number   -- 호출하는 곳으로 값을 던져줌  , 리턴할 자료형
+is
+    v_salary number(7,2);
+begin
+    select salary into v_salary 
+    from employee 
+    where ename = v_ename;
+    return v_salary;
+end;
+/
+
+-- 1. 함수사용
+variable var_salary number;
+exec :var_salary := fn_salary_ename ('SCOTT');
+print var_salary;
+
+
+-- 2. 함수사용 ( SQL 구문내에서 함수 사용 )
+select ename , fn_salary_ename('SCOTT') 월급
+from employee 
+where ename = 'SCOTT';
+
+
+
+/*  트리거 (Trigger ) 
+        - 테이블에 부착되어 있다
+        - 테이블에 이벤트가 발생될떄 자동으로 작동되는 프로그램 코드 
+        - 테이블에 발생되는 이벤트 ( Insert , Update , Delete )
+        - 트리거에서 정의된 begin ~ end 사이의 문장이 실행됨 
+        - before 트리거: 테이블에서 트리거를 먼저 실행후 insert , Update , Delete 가 적용
+        - after 트리거 : insert , update , delete 가 실행후 trigger를 실행 
+        -- 예) 주문 테이블에 값을 넣었을때 배송 테이블에 자동으로 저장
+        -- 예) 중요 테이블의 로그를 남길때도 사용됨
+        -- :new   가상의 임시테이블 , 트리거가 부착된 테이블에 새롭게 들어오는 레코드의 임시 테이블 
+        -- :old   가상의 임시테이블 , 트리거가 부착된 테이블에서 삭제되는 레코드의 임시테이블 
+        -- 트리거는 하나의 테이블에 총 3개까지 부착됨 ( insert , update , delete ) 
+*/
+
+
+create table dept_original 
+as
+select * from department
+where 0 = 1;
+
+create table dept_copy
+as
+select * from department
+where 0 =1;
+
+
+-- 트리거 생성 ( dept_original 테이블에 부착 ,insert 이벤트가 발생될떄 자동으로 작동) 
+
+create or replace trigger tri_sample1
+        -- 트리거가 부착될 테이블 , 이벤트 ( insert , update , delete ) , Before , After 
+        after insert    -- insert 이벤트가 작동후 트리거가 작동 ( begin ~ end 사이의 코드 ) 
+        on dept_original  -- on  부착될 테이블 
+        for each row    -- 모든 row에 대해서 
+
+begin             -- 트리거가 실행할 코드 
+
+    if inserting then 
+        dbms_output.put_line('Insert Trigger 발생 ');        
+        insert into dept_copy 
+        values ( :new.dno , :new.dname, :new.loc); -- new 가상 임시 테이블
+    end if;
+end;
+/
+
+
+-- 트리거 확인 데이터 사전
+select * from user_source where name = 'TRI_SAMPLE1';
+
+insert into dept_original 
+values ( 13, 'PROGRAM2' , 'BUSAN2');
+
+select * from dept_original;
+select * from dept_copy;
+
+
+
+-- delete 트리거 : dept_original 에서 제거 ===> dept_copy에서도 제거 
+create or replace trigger  tri_del
+    -- 트리거가 작동시킬 테이블 , 이벤트 
+    after delete   -- 원본 테이블의 delete를 먼저실행하고 trigger 작동 
+    on dept_original 
+    for each row
+begin
+    dbms_output.put_line('delete trigger 발생 ');
+    delete dept_copy
+    where dept_copy.dno = :old.dno;
+end;
+/
+
+delete dept_original
+where dno = 13;
+
+select * from dept_original;
+select * from dept_copy;
+
+
+
+-- update 트리거  : dept_original 에서 update하면 dept_copy에서도 update
+create or replace trigger tri_update
+    after update
+    on dept_original
+    for each row
+begin
+    dbms_output.put_line(' update trigger 발생 ');
+    update dept_copy
+    set dept_copy.dname = :new.dname
+    where dept_copy.dno = 12;
+end;
+/
+
+update dept_original
+set dname = 'ㅁㄴㅇ'
+where dno = 12;
+
+select * from dept_original;
+select * from dept_copy;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

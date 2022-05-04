@@ -63,38 +63,5 @@ begin
                            || '   ' || var_dname || '   '|| var_loc);
 end;
 /
-/* 함수 ( Funtion ) : 값을 넣어서 하나의 값을 반환 받아온다.   <== SQL구문 내에서 사용가능
-    -- 비교 ,  저장프로시저는 out 매개변수를 여러개 반환받아올수 있다 <== SQL구문 내애서는 사용불가
-*/
-
-create or replace function fn_salary_ename ( 
-    v_ename in employee.ename%type
-)
-return number   -- 호출하는 곳으로 값을 던져줌  , 리턴할 자료형
-is
-    v_salary number(7,2);
-begin
-    select salary into v_salary 
-    from employee 
-    where ename = v_ename;
-    return v_salary;
-end;
-/
-
--- 1. 함수사용
-variable var_salary number;
-exec :var_salary := fn_salary_ename ('SCOTT');
-print var_salary;
-
-
--- 2. 함수사용 ( SQL 구문내에서 함수 사용 )
-select ename , fn_salary_ename('SCOTT') 월급
-from employee 
-where ename = 'SCOTT';
-
-
-
-
-
 
 
